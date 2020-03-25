@@ -1,0 +1,25 @@
+		U¿ytkowniku witaj w grze Wisielec!!!
+Oto krótki opis przebiegu rozgrywki:
+	Na pocz¹tku zostaniesz poproszony o wybór poziomu trudnoœci, a
+nastepnie kategorii has³a. Po dokonaniu wyboru uka¿e siê na ekranie zakodowane has³o
+w którym pierwsza i ostatnia litera bêdzie widoczna (np P _ _ _ _ _ R), dostaniesz dziewiêæ 
+¿yæ oraz zostaniesz poproszony o podanie litery. Jeœli Twoja litera wyst¹pi w haœle przynajmniej
+raz zakodowane pola zostan¹ ni¹ zast¹pione na przyk³ad:
+	Has³o: P _ _ _ _ _ R
+	Podajê literê "O"
+	Has³o: P O _ _ _ O R
+W przeciwnym wypadku utracisz ¿ycie.
+	Gra siê koñczy gdy odgadniesz wszystkie litery.
+
+UWAGA UTRUDNIENIA!!!
+- Litery, które podasz a bêd¹ b³êdne nie bêd¹ nigdzie wyœwietlane, 
+  co oznacza, ¿e musisz je pamiêtaæ aby nie traciæ zbêdnie ¿yæ.
+- Pierwsza i ostatnia litera has³a s¹ podene, ale nie oznacza 
+  to, ¿e te litery nie mog¹ siê powtórzyæ np.:
+	Has³o: Z _ _ _ _ A
+	Podajê literê "A"
+	Has³o: Z A _ _ _ A
+
+¯yczymy mi³ej zabawy :)
+	 
+	
