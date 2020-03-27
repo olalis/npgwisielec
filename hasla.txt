@@ -36,3 +36,34 @@ Hasła do gry "Wisielec":
 
 
 		       Trudny :
+		Kategorie: Geografia:
+				AZERBEJDŻAN
+				BANGLADESZ
+				KONSTANTYNPOL
+				MADAGASKAR
+			   Jedzenie:
+				CROISSANT
+				FRANKFURTERKI				
+				SZAKSZUKA
+				GUACAMOLE
+			   Kino:
+				INTERSTELLAR
+				TARANTINO
+				AVENGERS
+				LŚNIENIE
+				CASABLANCA
+			   Sport:
+				LEKKOATLETYKA
+				JEŹDZIECTWO
+				NARCIARSTWO
+				KAJAKARSTWO
+			   Nauka:
+				PROBABILISTYKA
+				SŁOWOTWÓRSTWO
+				TETRAMETYLOPENTAN
+				ELEKTRONIKA
+			   Zwierzęta:
+				ŚWIERSZCZ
+				GŻEGŻÓŁKA
+				ICHTIOZAUR
+				HIPOPOTAM
