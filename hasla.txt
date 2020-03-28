@@ -33,6 +33,37 @@ Hasła do gry "Wisielec":
 				MYSZ
 				ŻÓŁW
  		       Średni :
+		Kategorie: Geografia:
+				AMAZONKA
+				LIVERPOOL
+				WALENCJA
+				URUGWAJ
+			   Jedzenie:
+				SZARLOTKA
+				MAKARON
+				JABŁKO
+				PSTRĄG
+			   Kino:
+				INCEPCJA
+				PIANISTA
+				GLADIATOR
+				SPIELBERG
+				DICAPRIO
+			   SPORT:
+				KOSZYKÓWKA
+				SIATKÓWKA
+				KOLARSTWO
+				BIATHLON
+			   NAUKA:
+				RÓŻNICZKA
+				DEUTER
+				GRAWITACJA
+				OKSYMORON
+			   ZWIERZĘTA:
+				KREWETKA
+				DZIĘCIOŁ
+				ALIGATOR
+				PSZCZOŁA
 
 
 		       Trudny :
