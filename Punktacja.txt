@@ -1,0 +1,7 @@
+	Na pocz¹tku gry gracz otrzymuje 1000 punktów, za ka¿d¹ b³êdn¹
+odpowiedŸ traci 100 punktów. Po zakoñczeniu rozgrywki wynik zostaje 
+pomno¿ony przez wspó³czynnik zale¿ny od poziomu.
+	Wspó³czynniki dla odpowiednich poziomów:
+£atwy: 1.0
+Œredni: 1.5
+Trudny: 2.0
