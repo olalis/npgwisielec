@@ -1,7 +1,0 @@
-	Na początku gry gracz posiada 0 punktów, za każdą błędną
-odpowiedź traci 100 punktów, a za poprawną zdobywa 300. Po zakończeniu rozgrywki wynik zostaje 
-pomnożony przez współczynnik zależny od poziomu.
-	Współczynniki dla odpowiednich poziomów:
-Łatwy:  1.0
-Średni: 5.0
-Trudny: 10.0
