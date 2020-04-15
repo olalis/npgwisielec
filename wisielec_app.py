@@ -14,14 +14,14 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.ApplicationModal)
-        MainWindow.resize(920, 650)
+        MainWindow.resize(922, 650)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../Pobrane/hangman.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../npgwisielec/hangman.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.labelwisielec = QtWidgets.QLabel(self.centralwidget)
-        self.labelwisielec.setGeometry(QtCore.QRect(370, 25, 381, 131))
+        self.labelwisielec.setGeometry(QtCore.QRect(380, 40, 381, 131))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(32, 74, 135))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -43,13 +43,13 @@ class Ui_MainWindow(object):
         self.labelwisielec.setTextFormat(QtCore.Qt.PlainText)
         self.labelwisielec.setObjectName("labelwisielec")
         self.rozpocznij_bnt = QtWidgets.QPushButton(self.centralwidget)
-        self.rozpocznij_bnt.setGeometry(QtCore.QRect(360, 220, 241, 41))
+        self.rozpocznij_bnt.setGeometry(QtCore.QRect(370, 220, 241, 41))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.rozpocznij_bnt.setFont(font)
         self.rozpocznij_bnt.setObjectName("rozpocznij_bnt")
         self.podaj_btn = QtWidgets.QLabel(self.centralwidget)
-        self.podaj_btn.setGeometry(QtCore.QRect(60, 480, 141, 31))
+        self.podaj_btn.setGeometry(QtCore.QRect(90, 480, 111, 31))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.podaj_btn.setFont(font)
@@ -67,7 +67,7 @@ class Ui_MainWindow(object):
         self.hasloedt.setReadOnly(True)
         self.hasloedt.setObjectName("hasloedt")
         self.haslolabel = QtWidgets.QLabel(self.frame)
-        self.haslolabel.setGeometry(QtCore.QRect(16, 10, 91, 41))
+        self.haslolabel.setGeometry(QtCore.QRect(40, 10, 61, 41))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.haslolabel.setFont(font)
@@ -89,7 +89,7 @@ class Ui_MainWindow(object):
         self.koniec_btn.setGeometry(QtCore.QRect(720, 530, 111, 31))
         self.koniec_btn.setObjectName("koniec_btn")
         self.layoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.layoutWidget.setGeometry(QtCore.QRect(30, 160, 871, 41))
+        self.layoutWidget.setGeometry(QtCore.QRect(60, 160, 821, 41))
         self.layoutWidget.setObjectName("layoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -103,6 +103,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.label_kateg)
         self.comboBox_kat = QtWidgets.QComboBox(self.layoutWidget)
         self.comboBox_kat.setMaximumSize(QtCore.QSize(101, 16777215))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.comboBox_kat.setFont(font)
         self.comboBox_kat.setObjectName("comboBox_kat")
         self.comboBox_kat.addItem("")
         self.comboBox_kat.addItem("")
@@ -120,6 +123,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.label_poziom)
         self.comboBox_pt = QtWidgets.QComboBox(self.layoutWidget)
         self.comboBox_pt.setMaximumSize(QtCore.QSize(81, 16777215))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.comboBox_pt.setFont(font)
         self.comboBox_pt.setObjectName("comboBox_pt")
         self.comboBox_pt.addItem("")
         self.comboBox_pt.addItem("")
@@ -146,7 +152,7 @@ class Ui_MainWindow(object):
         self.podaj_edt.setObjectName("podaj_edt")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1003, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 922, 21))
         self.menubar.setObjectName("menubar")
         self.menuMenu = QtWidgets.QMenu(self.menubar)
         self.menuMenu.setObjectName("menuMenu")
@@ -176,6 +182,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.koniec_btn.clicked.connect(self.koniec)  # obsługa wcisniecia przycisku koniec
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -207,6 +215,8 @@ class Ui_MainWindow(object):
         self.actionZapisz_Gr.setText(_translate("MainWindow", "Zapisz Grę"))
         self.actionWczytaj_Gr.setText(_translate("MainWindow", "Wczytaj Grę"))
 
+    def koniec(self):
+        exit() #funkcjonalność przycisku koniec
 
 if __name__ == "__main__":
     import sys
