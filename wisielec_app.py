@@ -8,6 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from baza import *
 
 
 class Ui_MainWindow(object):
@@ -216,12 +217,14 @@ class Ui_MainWindow(object):
         self.actionWczytaj_Gr.setText(_translate("MainWindow", "Wczytaj Grę"))
 
     def koniec(self):
+        baza.close()
         exit() #funkcjonalność przycisku koniec
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
+    polacz()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
