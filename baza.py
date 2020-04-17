@@ -4,6 +4,7 @@ from peewee import *
 import os.path
 from pathlib import Path
 import csv
+from wisielec_app import *
 
 baza_nazwa = 'wisielec.db'
 baza = SqliteDatabase(baza_nazwa)  # instancja bazy
@@ -30,15 +31,37 @@ class Haslo(BaseModel):
 
     class Meta:
         order_by = ('haslo',)
+
+
 ########KONIEC##########
 
 
-def czytaj_dane(): #funkcja odczytująca dane z plików csv
-    pass
+def czy_jest(plik):  # funkcja sprawdza, czy plik istnieje na dysku
+    if not os.path.isfile(plik):
+        print("Plik {} nie istnieje!".format(plik))
+        return False
+    return True
 
 
-def dodaj_dane(dane): #funkcja dodająca dane odczytane z plików csv
-    pass
+def czytaj_dane(plik, separator=";"):  # funkcja odczytująca dane z plików csv
+    dane = []  # pusta lista na rekordy
+
+    if not czy_jest(plik):
+        return dane
+
+    with open(plik, 'r', newline='', encoding='utf-8') as plikcsv:
+        tresc = csv.reader(plikcsv, delimiter=separator)
+        for rekord in tresc:
+            dane.append(rekord)
+    return dane
+
+
+def dodaj_dane(dane):  # funkcja dodająca dane odczytane z plików csv
+    for model, plik in dane.items():
+        pola = [pole for pole in model._meta.fields]
+        pola.pop(0)  # usuwamy pola id
+        wpisy = czytaj_dane(plik + '.csv', ';')
+        model.insert_many(wpisy).execute()
 
 
 def polacz():
@@ -74,5 +97,13 @@ def polacz():
     # 
     #     dodaj_dane(dane)
     #     baza.commit()
-    
+
     return True
+
+
+# W miejsce "2" należy wpisać dane odczytywane z przycisków w głównym oknie aplikacji. Funkcjonalność zostanie
+# zrealizowana po powstaniu funkcji obsługujących odczytywanie danych podanych przez użytkownika.
+def pobierz_haslo(that):  # funkcja wybierająca hasło o podanym poziomie i kategori z bazy danych
+    haslo = Haslo.select(Haslo.haslo).where(Haslo.kategoria == 2,
+                                            Haslo.poziom == 2).order_by(fn.Random()).scalar()
+    return haslo
