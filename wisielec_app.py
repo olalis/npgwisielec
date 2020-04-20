@@ -165,18 +165,18 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.actionZapisz_gr = QtWidgets.QAction(MainWindow)
-        self.actionZapisz_gr.setObjectName("actionZapisz_gr")
-        self.actionWczytaj_gr = QtWidgets.QAction(MainWindow)
-        self.actionWczytaj_gr.setObjectName("actionWczytaj_gr")
-        self.actionStatystyki = QtWidgets.QAction(MainWindow)
-        self.actionStatystyki.setObjectName("actionStatystyki")
         self.actionZapisz_Gr = QtWidgets.QAction(MainWindow)
         self.actionZapisz_Gr.setObjectName("actionZapisz_Gr")
         self.actionWczytaj_Gr = QtWidgets.QAction(MainWindow)
         self.actionWczytaj_Gr.setObjectName("actionWczytaj_Gr")
+        self.actionWyswietl_zasady_gry = QtWidgets.QAction(MainWindow)
+        self.actionWyswietl_zasady_gry.setObjectName("actionWy_wietl_zasady_gry")
+        self.actionPokaz_statystyki = QtWidgets.QAction(MainWindow)
+        self.actionPokaz_statystyki.setObjectName("actionPoka_statystyki")
         self.menuMenu.addAction(self.actionZapisz_Gr)
         self.menuMenu.addAction(self.actionWczytaj_Gr)
+        self.menuStatystyki.addAction(self.actionPokaz_statystyki)
+        self.menuZasady_gry.addAction(self.actionWyswietl_zasady_gry)
         self.menubar.addAction(self.menuMenu.menuAction())
         self.menubar.addAction(self.menuStatystyki.menuAction())
         self.menubar.addAction(self.menuZasady_gry.menuAction())
@@ -185,6 +185,14 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.koniec_btn.clicked.connect(self.koniec)  # obsługa wcisniecia przycisku koniec
+        self.rozpocznij_bnt.clicked.connect(self.rozpoczecie)  # obsluga wcisniecia przycisku rozpocznij gre
+        self.ustaw_kat(self.comboBox_kat.currentText())  # ustawienie kategori poczatkowej
+        self.comboBox_kat.activated[str].connect(self.ustaw_kat)  # obsluga ustawiania kategorii
+        self.ustaw_pt(self.comboBox_pt.currentText())  # ustawienie poziomu tr. poczatkowego
+        self.comboBox_pt.activated[str].connect(self.ustaw_pt)  # obsluga ustawianiapoziomu tr.
+        self.podaj_edt.returnPressed.connect(self.odczytaj)  # obsluga podawania liter
+        self.wynik = None
+        self.menuZasady_gry.triggered.connect(self.zasady)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -210,21 +218,101 @@ class Ui_MainWindow(object):
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.menuStatystyki.setTitle(_translate("MainWindow", "Statystyki"))
         self.menuZasady_gry.setTitle(_translate("MainWindow", "Zasady gry"))
-        self.actionZapisz_gr.setText(_translate("MainWindow", "Zapisz grę"))
-        self.actionWczytaj_gr.setText(_translate("MainWindow", "Wczytaj grę"))
-        self.actionStatystyki.setText(_translate("MainWindow", "Statystyki"))
         self.actionZapisz_Gr.setText(_translate("MainWindow", "Zapisz Grę"))
         self.actionWczytaj_Gr.setText(_translate("MainWindow", "Wczytaj Grę"))
+        self.actionWyswietl_zasady_gry.setText(_translate("MainWindow", "Wyświetl zasady gry"))
+        self.actionPokaz_statystyki.setText(_translate("MainWindow", "Pokaż statystyki"))
 
     def koniec(self):
         baza.close()
         exit() #funkcjonalność przycisku koniec
 
+    def rozpoczecie(self): #funkcja realizująca rozpoczecie gry
+        self.liczba_prob = 10
+        self.wynik=0
+        self.wylosowane_haslo = pobierz_haslo(self)
+        self.komunikatedt.setText(str("Rozpoczęto grę na poziomie "+ self.poziom_tr + "m. Hasło z kategorii " + self.kategoria +" zostało wylosowane.\nPodaj pierwszą literę:\t\t\t\t Pozostało prób:" + str(self.liczba_prob)))
+        self.hasloedt.setText(str(len(self.wylosowane_haslo)*'*  '))
+        self.wynik_edt.setText(str(self.wynik))
+        self.wykorzystane_litery=[]
+        self.indeksy = []
+        for i in range(len(self.wylosowane_haslo)):
+            self.indeksy.append(False)
+
+    def czy_wygrana(self): #fukcja sprawdzająca czy wszystkie litery zostały odgadnięte
+        self.zgadniete = 0
+        for i in range(len(self.wylosowane_haslo)):
+            if self.indeksy[i]:
+                self.zgadniete +=1
+        if self.zgadniete == len(self.wylosowane_haslo):
+            self.komunikatedt.setText("Gratulacje wygrałeś!!!\nTwój wynik końcowy: " + str(self.wynik_koncowy()))
+            return True
+
+    def wynik_koncowy(self):
+        if self.poziom_tr == "Łatwy":
+            return self.wynik
+        elif self.poziom_tr == "Średni":
+            return 3*self.wynik
+        elif self.poziom_tr == "Trudny":
+            return 5*self.wynik
+
+    def odczytaj(self):  # funkcja odczytująca podawane litery
+        self.podana_litera = self.podaj_edt.text().upper()
+        if self.wynik != None and not self.czy_wygrana():
+            if len(self.podana_litera) == 1:
+                if self.podana_litera in self.wylosowane_haslo and self.podana_litera not in self.wykorzystane_litery:
+                    self.wykorzystane_litery.append(self.podana_litera)
+                    self.komunikatedt.setText("Brawo! Zgadłeś! \t\t\t\t Pozostało prób:" + str(
+                        self.liczba_prob) + "\nWykorzystane litery:" + str(
+                        self.wykorzystane_litery) + "\nPodaj następną literę: ")
+                    for i in range(len(self.wylosowane_haslo)):
+                        if self.wylosowane_haslo[i] == self.podana_litera:
+                            self.wynik += 500
+                            self.indeksy[i] = True
+                    self.wynik_edt.setText(str(self.wynik))
+
+                    haslo_kom = " ".join(
+                        [litera if self.indeksy[i] else "*" for i, litera in enumerate(self.wylosowane_haslo)])
+                    self.hasloedt.setText(haslo_kom.strip())
+                    self.czy_wygrana()
+
+                elif self.podana_litera in self.wykorzystane_litery:
+                    self.komunikatedt.setText("Już podałeś tą literę!\t\t\t\t Pozostało prób:" + str(
+                        self.liczba_prob) + "\nWykorzystane litery:" + str(
+                        self.wykorzystane_litery) + "\nPodaj następną literę: ")
+                else:
+                    self.wykorzystane_litery.append(self.podana_litera)
+                    self.liczba_prob -= 1
+                    self.wynik -= 100
+                    self.komunikatedt.setText(
+                        "Pudło!\t\t\t\t Pozostało prób:" + str(self.liczba_prob) + "\nWykorzystane litery:" + str(
+                            self.wykorzystane_litery) + "\nPodaj następną literę: ")
+                    self.wynik_edt.setText(str(self.wynik))
+                    if self.liczba_prob == 0:
+                        self.komunikatedt.setText("GAME OVER")
+            else:
+                self.komunikatedt.setText("Wprowadzono błędne dane! Spróbuj ponownie")
+            self.podaj_edt.setText("")
+        else:
+            self.komunikatedt.setText("Aby rozpocząć grę wybierz ustawienia i klknij Rozpocznij grę.")
+            self.podaj_edt.setText("")
+
+    def ustaw_kat(self,wartosc):  # funkcja wykrywa ustawienie innej kategorii niz poczatkowa(pierwsza w comboboxie)
+        self.kategoria = wartosc
+
+    def ustaw_pt(self,wartosc):  # funkcja wykrywa ustawienie innego poziomu tr. niz poczatkowy(pierwsza w comboboxie)
+        self.poziom_tr = wartosc
+
+    def zasady(self):
+        print("zasady")
+
+
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    polacz()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
