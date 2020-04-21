@@ -101,9 +101,33 @@ def polacz():
     return True
 
 
-# W miejsce "2" należy wpisać dane odczytywane z przycisków w głównym oknie aplikacji. Funkcjonalność zostanie
-# zrealizowana po powstaniu funkcji obsługujących odczytywanie danych podanych przez użytkownika.
+def wykryj_poziom(that):  # funkcja zmieniająca nazwe poziomu (pobraną z comboboxa) na jego indeks
+    if that.poziom_tr == "Łatwy":
+        poz = 1
+    elif that.poziom_tr == "Średni":
+        poz = 2
+    else:
+        poz = 3
+    return poz
+
+
+def wykryj_kategorie(that):  # funkcja zmieniająca nazwe kategori (pobraną z comboboxa) na jej indeks
+    if that.kategoria == "Geografia":
+        kat = 1
+    elif that.kategoria == "Jedzenie":
+        kat = 2
+    elif that.kategoria == "Kino":
+        kat = 3
+    elif that.kategoria == "Sport":
+        kat = 4
+    elif that.kategoria == "Nauka":
+        kat = 5
+    else:
+        kat = 6
+    return kat
+
+
 def pobierz_haslo(that):  # funkcja wybierająca hasło o podanym poziomie i kategori z bazy danych
-    haslo = Haslo.select(Haslo.haslo).where(Haslo.kategoria == 2,
-                                            Haslo.poziom == 2).order_by(fn.Random()).scalar()
+    haslo = Haslo.select(Haslo.haslo).where(Haslo.kategoria == wykryj_kategorie(that),
+                                            Haslo.poziom == wykryj_poziom(that)).order_by(fn.Random()).scalar()
     return haslo
