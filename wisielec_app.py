@@ -294,7 +294,7 @@ class Ui_MainWindow(object):
                 self.komunikatedt.setText("Wprowadzono błędne dane! Spróbuj ponownie")
             self.podaj_edt.setText("")
         else:
-            self.komunikatedt.setText("Aby rozpocząć grę wybierz ustawienia i klknij Rozpocznij grę.")
+            self.komunikatedt.setText("Aby rozpocząć grę wybierz ustawienia i kliknij Rozpocznij grę.")
             self.podaj_edt.setText("")
 
     def ustaw_kat(self,wartosc):  # funkcja wykrywa ustawienie innej kategorii niz poczatkowa(pierwsza w comboboxie)
@@ -311,6 +311,7 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+    polacz()
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
