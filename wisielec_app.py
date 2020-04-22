@@ -192,7 +192,7 @@ class Ui_MainWindow(object):
         self.comboBox_pt.activated[str].connect(self.ustaw_pt)  # obsluga ustawianiapoziomu tr.
         self.podaj_edt.returnPressed.connect(self.odczytaj)  # obsluga podawania liter
         self.wynik = None
-        self.menuZasady_gry.triggered.connect(self.zasady)
+        self.menuZasady_gry.triggered.connect(self.zasady) #odczytanie przycisku zasady
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
