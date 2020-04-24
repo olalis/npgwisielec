@@ -13,7 +13,7 @@ class Ui_Zasady_gry(object):
     def setupUi(self, Zasady_gry):
         Ui_Zasady_gry.__init__(self)
         Zasady_gry.setObjectName("Zasady_gry")
-        Zasady_gry.resize(900, 885)
+        Zasady_gry.resize(950, 770)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../npgwisielec/hangman.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Zasady_gry.setWindowIcon(icon)

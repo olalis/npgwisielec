@@ -82,7 +82,7 @@ class Ui_MainWindow(object):
         self.komunikatedt = QtWidgets.QTextEdit(self.frame)
         self.komunikatedt.setGeometry(QtCore.QRect(10, 110, 811, 81))
         font = QtGui.QFont()
-        font.setPointSize(14)
+        font.setPointSize(12)
         self.komunikatedt.setFont(font)
         self.komunikatedt.setReadOnly(True)
         self.komunikatedt.setObjectName("komunikatedt")
