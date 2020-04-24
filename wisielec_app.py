@@ -9,12 +9,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from baza import *
+from zasadygry import Ui_Zasady_gry
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setWindowModality(QtCore.Qt.ApplicationModal)
         MainWindow.resize(922, 650)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../npgwisielec/hangman.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -305,6 +305,13 @@ class Ui_MainWindow(object):
 
     def zasady(self):
         print("zasady")
+
+    def zasady(self):
+        self.zasadyshow=QtWidgets.QWidget()
+        self.ui2 = Ui_Zasady_gry()
+        self.ui2.setupUi(self.zasadyshow)
+        self.zasadyshow.setFocus()
+        self.zasadyshow.show()
 
 
 
