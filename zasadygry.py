@@ -20,7 +20,7 @@ class Ui_Zasady_gry(object):
         self.zasadylabel = QtWidgets.QLabel(Zasady_gry)
         self.zasadylabel.setGeometry(QtCore.QRect(30, 140, 801, 511))
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(10)
         self.zasadylabel.setFont(font)
         self.zasadylabel.setObjectName("zasadylabel")
         self.label = QtWidgets.QLabel(Zasady_gry)
