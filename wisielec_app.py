@@ -304,9 +304,6 @@ class Ui_MainWindow(object):
         self.poziom_tr = wartosc
 
     def zasady(self):
-        print("zasady")
-
-    def zasady(self):
         self.zasadyshow=QtWidgets.QWidget()
         self.ui2 = Ui_Zasady_gry()
         self.ui2.setupUi(self.zasadyshow)
