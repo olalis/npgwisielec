@@ -18,7 +18,7 @@ class Ui_Zasady_gry(object):
         icon.addPixmap(QtGui.QPixmap("../npgwisielec/hangman.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Zasady_gry.setWindowIcon(icon)
         self.zasadylabel = QtWidgets.QLabel(Zasady_gry)
-        self.zasadylabel.setGeometry(QtCore.QRect(30, 140, 850, 611))
+        self.zasadylabel.setGeometry(QtCore.QRect(30, 140, 850, 711))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.zasadylabel.setFont(font)
