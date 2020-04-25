@@ -225,9 +225,9 @@ class Ui_MainWindow(object):
 
     def koniec(self):
         baza.close()
-        exit() #funkcjonalność przycisku koniec
+        exit()  # funkcjonalność przycisku koniec
 
-    def rozpoczecie(self): #funkcja realizująca rozpoczecie gry
+    def rozpoczecie(self):  # funkcja realizująca rozpoczecie gry
         self.liczba_prob = 10
         self.wynik=0
         self.wylosowane_haslo = pobierz_haslo(self)
@@ -239,7 +239,7 @@ class Ui_MainWindow(object):
         for i in range(len(self.wylosowane_haslo)):
             self.indeksy.append(False)
 
-    def czy_wygrana(self): #fukcja sprawdzająca czy wszystkie litery zostały odgadnięte
+    def czy_wygrana(self):   # fukcja sprawdzająca czy wszystkie litery zostały odgadnięte
         self.zgadniete = 0
         for i in range(len(self.wylosowane_haslo)):
             if self.indeksy[i]:
@@ -248,7 +248,7 @@ class Ui_MainWindow(object):
             self.komunikatedt.setText("Gratulacje wygrałeś!!!\nTwój wynik końcowy: " + str(self.wynik_koncowy()))
             return True
 
-    def wynik_koncowy(self):
+    def wynik_koncowy(self):   # funkcja zwracajaca wynik koncowy uzalezniony od poziomu trudnosci
         if self.poziom_tr == "Łatwy":
             return self.wynik
         elif self.poziom_tr == "Średni":
@@ -257,10 +257,10 @@ class Ui_MainWindow(object):
             return 5*self.wynik
 
     def odczytaj(self):  # funkcja odczytująca podawane litery
-        self.podana_litera = self.podaj_edt.text().upper()
-        if self.wynik != None and not self.czy_wygrana():
-            if len(self.podana_litera) == 1:
-                if self.podana_litera in self.wylosowane_haslo and self.podana_litera not in self.wykorzystane_litery:
+        self.podana_litera = self.podaj_edt.text().upper()                           # umożliwia poprawne odczytanie malych badz duzych liter
+        if self.wynik != None and not self.czy_wygrana() and self.liczba_prob !=0 :    # wymuszenie kliknięcia rozpocznij grę na początku i po zakonczeniu gry z jednym hasłem
+            if len(self.podana_litera) == 1:                                         # sprawdzenie czy podana litera sklada się z jednego znaku
+                if self.podana_litera in self.wylosowane_haslo and self.podana_litera not in self.wykorzystane_litery:    #funkcjonalność gdy litera zgadnieta
                     self.wykorzystane_litery.append(self.podana_litera)
                     self.komunikatedt.setText("Brawo! Zgadłeś! \t\t\t\t Pozostało prób:" + str(
                         self.liczba_prob) + "\nWykorzystane litery:" + str(
@@ -276,12 +276,12 @@ class Ui_MainWindow(object):
                     self.hasloedt.setText(haslo_kom.strip())
                     self.czy_wygrana()
 
-                elif self.podana_litera in self.wykorzystane_litery:
+                elif self.podana_litera in self.wykorzystane_litery:            # komunikat gdy podaliśmy już wcześniej tą samą literę
                     self.komunikatedt.setText("Już podałeś tą literę!\t\t\t\t Pozostało prób:" + str(
                         self.liczba_prob) + "\nWykorzystane litery:" + str(
                         self.wykorzystane_litery) + "\nPodaj następną literę: ")
                 else:
-                    self.wykorzystane_litery.append(self.podana_litera)
+                    self.wykorzystane_litery.append(self.podana_litera)        # funkcjonalność gdy litery nie ma w haśle
                     self.liczba_prob -= 1
                     self.wynik -= 100
                     self.komunikatedt.setText(
@@ -291,10 +291,10 @@ class Ui_MainWindow(object):
                     if self.liczba_prob == 0:
                         self.komunikatedt.setText("GAME OVER")
             else:
-                self.komunikatedt.setText("Wprowadzono błędne dane! Spróbuj ponownie")
+                self.komunikatedt.setText("Wprowadzono błędne dane! Spróbuj ponownie")  # komunikat przy wprowadzeniu błednych danych
             self.podaj_edt.setText("")
         else:
-            self.komunikatedt.setText("Aby rozpocząć grę wybierz ustawienia i kliknij Rozpocznij grę.")
+            self.komunikatedt.setText("Aby rozpocząć grę wybierz ustawienia i kliknij Rozpocznij grę.") # komunikat gdy gra nie zaczęta lub zakonczona po podaniu litery
             self.podaj_edt.setText("")
 
     def ustaw_kat(self,wartosc):  # funkcja wykrywa ustawienie innej kategorii niz poczatkowa(pierwsza w comboboxie)
@@ -303,7 +303,7 @@ class Ui_MainWindow(object):
     def ustaw_pt(self,wartosc):  # funkcja wykrywa ustawienie innego poziomu tr. niz poczatkowy(pierwsza w comboboxie)
         self.poziom_tr = wartosc
 
-    def zasady(self):
+    def zasady(self):    #  funkcja otwierająca okno z zasadami gry
         self.zasadyshow=QtWidgets.QWidget()
         self.ui2 = Ui_Zasady_gry()
         self.ui2.setupUi(self.zasadyshow)
