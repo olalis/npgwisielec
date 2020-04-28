@@ -251,6 +251,8 @@ class Ui_MainWindow(QWidget):
                 self.zgadniete +=1
         if self.zgadniete == len(self.wylosowane_haslo):
             self.komunikatedt.setText("Gratulacje wygrałeś!!!\nTwój wynik końcowy: " + str(self.wynik_koncowy()))
+            self.wynik_edt.setText(str(self.wynik_koncowy()))
+
             return True
 
     def wynik_koncowy(self):   # funkcja zwracajaca wynik koncowy uzalezniony od poziomu trudnosci
@@ -263,7 +265,7 @@ class Ui_MainWindow(QWidget):
 
     def odczytaj(self):  # funkcja odczytująca podawane litery
         self.podana_litera = self.podaj_edt.text().upper() # umożliwia poprawne odczytanie malych badz duzych liter
-        if (self.wynik != None and not self.czy_wygrana() and self.liczba_prob !=0) or self.actionWczytaj_Gr.triggered :    # wymuszenie kliknięcia rozpocznij grę na początku i po zakonczeniu gry z jednym hasłem
+        if (self.wynik != None and not self.czy_wygrana() and self.liczba_prob !=0) or self.furtka_omijajaca_warunki_rozpoczecia == 1 :    # wymuszenie kliknięcia rozpocznij grę na początku i po zakonczeniu gry z jednym hasłem
             if len(self.podana_litera) == 1:                                         # sprawdzenie czy podana litera sklada się z jednego znaku
                 if self.podana_litera in self.wylosowane_haslo and self.podana_litera not in self.wykorzystane_litery:    #funkcjonalność gdy litera zgadnieta
                     self.wykorzystane_litery.append(self.podana_litera)
@@ -316,7 +318,7 @@ class Ui_MainWindow(QWidget):
         self.zasadyshow.show()
 
     def wczytaj(self):
-
+        self.furtka_omijajaca_warunki_rozpoczecia = 1
         self.settings = QSettings('myapp','App1')
         print(self.settings.fileName())
         self.kategoria=self.settings.value('kategoria')
@@ -329,19 +331,25 @@ class Ui_MainWindow(QWidget):
             "Wznowiono grę " + self.kategoria+ " / "+self.poziom_tr +
             ". \tPozostało prób:" + str(self.liczba_prob)) + "\nWykorzystane litery:" + str(
             self.wykorzystane_litery) + "\nPodaj następną literę: ")
-        self.wylosowane_haslo= self.settings.value('wylosowane_haslo')
         self.haslo_kom = self.settings.value('haslo_odgadywane')
+        self.wylosowane_haslo= self.settings.value('wylosowane_haslo')
         self.hasloedt.setText(self.haslo_kom.strip())
         self.zgadniete=self.settings.value('zgadniete')
-        self.indeksy=self.settings.value('indeksy')
-
+        self.haslo_kom=self.haslo_kom.replace(" ","")
+        self.indeksy = []
+        for i in range(len(self.wylosowane_haslo)):
+            self.indeksy.append(False)
+        for i in range(len(self.haslo_kom)):
+            if self.haslo_kom[i] != " "and self.haslo_kom[i] != "*":
+                self.indeksy[i]=True
 
 
     def zapisz(self, event):
 
         self.settings = QSettings('myapp', 'App1')
         if self.wynik != None and not self.czy_wygrana() and self.liczba_prob != 0 :
-            print("zapisano aby podglądnąć dane wejdź Start -> Edytor Rejestru \nKomputer\HKEY_CURRENT_USER\Software\myapp\App1 ")
+            print("zapisano aby podglądnąć dane wejdź Start -> Edytor Rejestru "
+                  "\nKomputer\HKEY_CURRENT_USER\Software\myapp\App1 ")
             self.settings.setValue('kategoria', self.kategoria)
             self.settings.setValue('poziom_trudnosci', self.poziom_tr)
             self.settings.setValue('wynik', self.wynik)
@@ -353,10 +361,10 @@ class Ui_MainWindow(QWidget):
             else:
                 self.settings.setValue('haslo_odgadywane', str(len(self.wylosowane_haslo)*'*  '))
             self.settings.setValue('zgadniete', self.zgadniete)
-            self.settings.setValue('indeksy', self.indeksy)
         else:
-            self.komunikatedt.setText(str(
-                "\t\t\t Gra się jeszcze nie rozpoczęła\n\t\t Wybierz kategorię i hasło, a następnie kliknij\n\t\t\t\t Rozpocznij grę!"))
+            self.komunikatedt.setText(str("\t\t\t Gra się jeszcze nie rozpoczęła"
+                                          "\n\t\t Wybierz kategorię i hasło, a następnie kliknij"
+                                          "\n\t\t\t\t Rozpocznij grę!"))
 
 
 
