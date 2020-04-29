@@ -32,6 +32,12 @@ class Haslo(BaseModel):
     class Meta:
         order_by = ('haslo',)
 
+class Ostatnia_gra(BaseModel):
+    poziom = CharField()
+    kategoria = CharField()
+    haslo = CharField(null=False)
+    wynik = IntegerField()
+
 
 ########KONIEC##########
 
@@ -66,37 +72,37 @@ def dodaj_dane(dane):  # funkcja dodająca dane odczytane z plików csv
 
 def polacz():
     # WERSJA TESTOWA
-    if os.path.exists(baza_nazwa):
-        os.remove(baza_nazwa)
-    baza.connect()  # połączenie z bazą
-    baza.create_tables([Poziom, Kategoria, Haslo])  # tworzymy tabele
-
-    dane = {
-        Haslo: 'hasla',
-        Poziom: 'poziomy',
-        Kategoria: 'kategorie',
-    }
-
-    dodaj_dane(dane)
-    baza.commit()
+    # if os.path.exists(baza_nazwa):
+    #     os.remove(baza_nazwa)
+    # baza.connect()  # połączenie z bazą
+    # baza.create_tables([Poziom, Kategoria, Haslo])  # tworzymy tabele
+    # 
+    # dane = {
+    #     Haslo: 'hasla',
+    #     Poziom: 'poziomy',
+    #     Kategoria: 'kategorie',
+    # }
+    # 
+    # dodaj_dane(dane)
+    # baza.commit()
 
     # WERSJA KOŃCOWA
-    # sciezka_baza = os.path.abspath("./" + baza_nazwa)
-    # 
-    # if not os.path.exists(sciezka_baza):
-    #     Path(sciezka_baza).touch()
-    # 
-    #     baza.connect(reuse_if_open=True)
-    #     baza.create_tables([Poziom, Kategoria, Haslo])
-    # 
-    #     dane = {
-    #         Haslo: 'hasla',
-    #         Poziom: 'poziomy',
-    #         Kategoria: 'kategorie',
-    #     }
-    # 
-    #     dodaj_dane(dane)
-    #     baza.commit()
+    sciezka_baza = os.path.abspath("./" + baza_nazwa)
+
+    if not os.path.exists(sciezka_baza):
+        Path(sciezka_baza).touch()
+
+        baza.connect(reuse_if_open=True)
+        baza.create_tables([Poziom, Kategoria, Haslo, Ostatnia_gra])
+
+        dane = {
+            Haslo: 'hasla',
+            Poziom: 'poziomy',
+            Kategoria: 'kategorie',
+        }
+
+        dodaj_dane(dane)
+        baza.commit()
 
     return True
 
@@ -131,3 +137,19 @@ def pobierz_haslo(that):  # funkcja wybierająca hasło o podanym poziomie i kat
     haslo = Haslo.select(Haslo.haslo).where(Haslo.kategoria == wykryj_kategorie(that),
                                             Haslo.poziom == wykryj_poziom(that)).order_by(fn.Random()).scalar()
     return haslo
+
+
+def odczytaj_gre(that):  # funkcja odczytująca stan ostaniej zapsanej gry
+    poziom = Ostatnia_gra.select(Ostatnia_gra.poziom).scalar()
+    kategoria = Ostatnia_gra.select(Ostatnia_gra.kategoria).scalar()
+    haslo = Ostatnia_gra.select(Ostatnia_gra.haslo).scalar()
+    wynik = Ostatnia_gra.select(Ostatnia_gra.wynik).scalar()
+    return poziom, kategoria, haslo, wynik
+
+
+def zapisz_gre(poziom, kategoria, haslo, wynik,  that):  # funkcja zapisująca stan gry
+    stare_dane = Ostatnia_gra.select().get()
+    stare_dane.delete_instance()
+    del stare_dane
+    that.nowe_dane = Ostatnia_gra(poziom=poziom, kategoria=kategoria, haslo=haslo, wynik=wynik)
+    that.nowe_dane.save()
