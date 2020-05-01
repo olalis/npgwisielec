@@ -37,6 +37,9 @@ class Ostatnia_gra(BaseModel):
     kategoria = CharField()
     haslo = CharField(null=False)
     wynik = IntegerField()
+    wykorzystane_litery = CharField()
+    ilosc_prob = IntegerField()
+    pola_zgadniete = IntegerField()
 
 
 ########KONIEC##########
@@ -144,12 +147,18 @@ def odczytaj_gre(that):  # funkcja odczytująca stan ostaniej zapsanej gry
     kategoria = Ostatnia_gra.select(Ostatnia_gra.kategoria).scalar()
     haslo = Ostatnia_gra.select(Ostatnia_gra.haslo).scalar()
     wynik = Ostatnia_gra.select(Ostatnia_gra.wynik).scalar()
-    return poziom, kategoria, haslo, wynik
+    wykorzystane_litery = Ostatnia_gra.select(Ostatnia_gra.wykorzystane_litery).scalar()
+    ilosc_prob = Ostatnia_gra.select(Ostatnia_gra.ilosc_prob).scalar()
+    pola_zgadniete = Ostatnia_gra.select(Ostatnia_gra.pola_zgadniete).scalar()
+    return poziom, kategoria, haslo, wynik, wykorzystane_litery, ilosc_prob, pola_zgadniete
 
 
-def zapisz_gre(poziom, kategoria, haslo, wynik,  that):  # funkcja zapisująca stan gry
+def zapisz_gre(poziom, kategoria, haslo, wynik, wykorzystane_litery, ilosc_prob, pola_zgadniete, that):
+    # funkcja zapisująca stan gry
     stare_dane = Ostatnia_gra.select().get()
     stare_dane.delete_instance()
     del stare_dane
-    that.nowe_dane = Ostatnia_gra(poziom=poziom, kategoria=kategoria, haslo=haslo, wynik=wynik)
+    that.nowe_dane = Ostatnia_gra(poziom=poziom, kategoria=kategoria, haslo=haslo, wynik=wynik,
+                                  wykorzystane_litery=wykorzystane_litery, ilosc_prob=ilosc_prob,
+                                  pola_zgadniete=pola_zgadniete)
     that.nowe_dane.save()
