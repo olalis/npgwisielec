@@ -195,8 +195,8 @@ class Ui_MainWindow(QWidget):
         self.podaj_edt.returnPressed.connect(self.odczytaj)  # obsluga podawania liter
         self.wynik = None
         self.menuZasady_gry.triggered.connect(self.zasady) #odczytanie przycisku zasady
-        self.actionZapisz_Gr.triggered.connect(self.zapisz)
-        self.actionWczytaj_Gr.triggered.connect(self.wczytaj)
+        self.actionZapisz_Gr.triggered.connect(self.zapisz) #odczytanie przycisku zapisz
+        self.actionWczytaj_Gr.triggered.connect(self.wczytaj) #odczytanie przycisku wczytaj
 
 
     def retranslateUi(self, MainWindow):
