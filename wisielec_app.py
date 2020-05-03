@@ -266,9 +266,9 @@ class Ui_MainWindow(QWidget):
             return 5 * self.wynik
 
     def odczytaj(self):  # funkcja odczytująca podawane litery
+        self.furtka_omijajaca_warunki_rozpoczecia=0
         self.podana_litera = self.podaj_edt.text().upper()  # umożliwia poprawne odczytanie malych badz duzych liter
-        if (
-                self.wynik is not None and not self.czy_wygrana() and self.liczba_prob != 0) or self.furtka_omijajaca_warunki_rozpoczecia == 1:  # wymuszenie kliknięcia rozpocznij grę na początku i po zakonczeniu gry z jednym hasłem
+        if (self.wynik is not None and not self.czy_wygrana() and self.liczba_prob != 0) or self.furtka_omijajaca_warunki_rozpoczecia == 1:  # wymuszenie kliknięcia rozpocznij grę na początku i po zakonczeniu gry z jednym hasłem
             if len(self.podana_litera) == 1:  # sprawdzenie czy podana litera sklada się z jednego znaku
                 if self.podana_litera in self.wylosowane_haslo and self.podana_litera not in self.wykorzystane_litery:  # funkcjonalność gdy litera zgadnieta
                     self.wykorzystane_litery.append(self.podana_litera)
