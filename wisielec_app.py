@@ -12,6 +12,7 @@ from baza import *
 from zasadygry import Ui_Zasady_gry
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import QSettings
+import string
 
 
 class Ui_MainWindow(QWidget):
@@ -194,10 +195,9 @@ class Ui_MainWindow(QWidget):
         self.comboBox_pt.activated[str].connect(self.ustaw_pt)  # obsluga ustawianiapoziomu tr.
         self.podaj_edt.returnPressed.connect(self.odczytaj)  # obsluga podawania liter
         self.wynik = None
-        self.menuZasady_gry.triggered.connect(self.zasady) #odczytanie przycisku zasady
-        self.actionZapisz_Gr.triggered.connect(self.zapisz) #odczytanie przycisku zapisz
-        self.actionWczytaj_Gr.triggered.connect(self.wczytaj) #odczytanie przycisku wczytaj
-
+        self.menuZasady_gry.triggered.connect(self.zasady)  # odczytanie przycisku zasady
+        self.actionZapisz_Gr.triggered.connect(self.zapisz)  # odczytanie przycisku zapisz
+        self.actionWczytaj_Gr.triggered.connect(self.wczytaj)  # odczytanie przycisku wczytaj
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -234,40 +234,43 @@ class Ui_MainWindow(QWidget):
 
     def rozpoczecie(self):  # funkcja realizująca rozpoczecie gry
         self.liczba_prob = 10
-        self.wynik=0
+        self.wynik = 0
         self.wylosowane_haslo = pobierz_haslo(self)
-        self.komunikatedt.setText(str("Rozpoczęto grę na poziomie "+ self.poziom_tr + "m. Hasło z kategorii " + self.kategoria +" zostało wylosowane.\nPodaj pierwszą literę:\t\t\t\t Pozostało prób:" + str(self.liczba_prob)))
-        self.hasloedt.setText(str(len(self.wylosowane_haslo)*'*  '))
+        self.komunikatedt.setText(str(
+            "Rozpoczęto grę na poziomie " + self.poziom_tr + "m. Hasło z kategorii " + self.kategoria + " zostało wylosowane.\nPodaj pierwszą literę:\t\t\t\t Pozostało prób:" + str(
+                self.liczba_prob)))
+        self.hasloedt.setText(str(len(self.wylosowane_haslo) * '*  '))
         self.wynik_edt.setText(str(self.wynik))
-        self.wykorzystane_litery=[]
+        self.wykorzystane_litery = []
         self.indeksy = []
         for i in range(len(self.wylosowane_haslo)):
             self.indeksy.append(False)
 
-    def czy_wygrana(self):   # fukcja sprawdzająca czy wszystkie litery zostały odgadnięte
+    def czy_wygrana(self):  # fukcja sprawdzająca czy wszystkie litery zostały odgadnięte
         self.zgadniete = 0
         for i in range(len(self.wylosowane_haslo)):
             if self.indeksy[i]:
-                self.zgadniete +=1
+                self.zgadniete += 1
         if self.zgadniete == len(self.wylosowane_haslo):
             self.komunikatedt.setText("Gratulacje wygrałeś!!!\nTwój wynik końcowy: " + str(self.wynik_koncowy()))
             self.wynik_edt.setText(str(self.wynik_koncowy()))
 
             return True
 
-    def wynik_koncowy(self):   # funkcja zwracajaca wynik koncowy uzalezniony od poziomu trudnosci
+    def wynik_koncowy(self):  # funkcja zwracajaca wynik koncowy uzalezniony od poziomu trudnosci
         if self.poziom_tr == "Łatwy":
             return self.wynik
         elif self.poziom_tr == "Średni":
-            return 3*self.wynik
+            return 3 * self.wynik
         elif self.poziom_tr == "Trudny":
-            return 5*self.wynik
+            return 5 * self.wynik
 
     def odczytaj(self):  # funkcja odczytująca podawane litery
-        self.podana_litera = self.podaj_edt.text().upper() # umożliwia poprawne odczytanie malych badz duzych liter
-        if (self.wynik != None and not self.czy_wygrana() and self.liczba_prob !=0) or self.furtka_omijajaca_warunki_rozpoczecia == 1 :    # wymuszenie kliknięcia rozpocznij grę na początku i po zakonczeniu gry z jednym hasłem
-            if len(self.podana_litera) == 1:                                         # sprawdzenie czy podana litera sklada się z jednego znaku
-                if self.podana_litera in self.wylosowane_haslo and self.podana_litera not in self.wykorzystane_litery:    #funkcjonalność gdy litera zgadnieta
+        self.podana_litera = self.podaj_edt.text().upper()  # umożliwia poprawne odczytanie malych badz duzych liter
+        if (
+                self.wynik is not None and not self.czy_wygrana() and self.liczba_prob != 0) or self.furtka_omijajaca_warunki_rozpoczecia == 1:  # wymuszenie kliknięcia rozpocznij grę na początku i po zakonczeniu gry z jednym hasłem
+            if len(self.podana_litera) == 1:  # sprawdzenie czy podana litera sklada się z jednego znaku
+                if self.podana_litera in self.wylosowane_haslo and self.podana_litera not in self.wykorzystane_litery:  # funkcjonalność gdy litera zgadnieta
                     self.wykorzystane_litery.append(self.podana_litera)
                     self.komunikatedt.setText("Brawo! Zgadłeś! \t\t\t\t Pozostało prób:" + str(
                         self.liczba_prob) + "\nWykorzystane litery:" + str(
@@ -283,12 +286,12 @@ class Ui_MainWindow(QWidget):
                     self.hasloedt.setText(self.haslo_kom.strip())
                     self.czy_wygrana()
 
-                elif self.podana_litera in self.wykorzystane_litery:            # komunikat gdy podaliśmy już wcześniej tą samą literę
+                elif self.podana_litera in self.wykorzystane_litery:  # komunikat gdy podaliśmy już wcześniej tą samą literę
                     self.komunikatedt.setText("Już podałeś tą literę!\t\t\t\t Pozostało prób:" + str(
                         self.liczba_prob) + "\nWykorzystane litery:" + str(
                         self.wykorzystane_litery) + "\nPodaj następną literę: ")
                 else:
-                    self.wykorzystane_litery.append(self.podana_litera)        # funkcjonalność gdy litery nie ma w haśle
+                    self.wykorzystane_litery.append(self.podana_litera)  # funkcjonalność gdy litery nie ma w haśle
                     self.liczba_prob -= 1
                     self.wynik -= 100
                     self.komunikatedt.setText(
@@ -298,79 +301,99 @@ class Ui_MainWindow(QWidget):
                     if self.liczba_prob == 0:
                         self.komunikatedt.setText("GAME OVER")
             else:
-                self.komunikatedt.setText("Wprowadzono błędne dane! Spróbuj ponownie")  # komunikat przy wprowadzeniu błednych danych
+                self.komunikatedt.setText(
+                    "Wprowadzono błędne dane! Spróbuj ponownie")  # komunikat przy wprowadzeniu błednych danych
             self.podaj_edt.setText("")
         else:
-            self.komunikatedt.setText("Aby rozpocząć grę wybierz ustawienia i kliknij Rozpocznij grę.") # komunikat gdy gra nie zaczęta lub zakonczona po podaniu litery
+            self.komunikatedt.setText(
+                "Aby rozpocząć grę wybierz ustawienia i kliknij Rozpocznij grę.")  # komunikat gdy gra nie zaczęta lub zakonczona po podaniu litery
             self.podaj_edt.setText("")
 
-    def ustaw_kat(self,wartosc):  # funkcja wykrywa ustawienie innej kategorii niz poczatkowa(pierwsza w comboboxie)
+    def ustaw_kat(self, wartosc):  # funkcja wykrywa ustawienie innej kategorii niz poczatkowa(pierwsza w comboboxie)
         self.kategoria = wartosc
 
-    def ustaw_pt(self,wartosc):  # funkcja wykrywa ustawienie innego poziomu tr. niz poczatkowy(pierwsza w comboboxie)
+    def ustaw_pt(self, wartosc):  # funkcja wykrywa ustawienie innego poziomu tr. niz poczatkowy(pierwsza w comboboxie)
         self.poziom_tr = wartosc
 
-    def zasady(self):    #  funkcja otwierająca okno z zasadami gry
-        self.zasadyshow=QtWidgets.QWidget()
+    def zasady(self):  # funkcja otwierająca okno z zasadami gry
+        self.zasadyshow = QtWidgets.QWidget()
         self.ui2 = Ui_Zasady_gry()
         self.ui2.setupUi(self.zasadyshow)
         self.zasadyshow.setFocus()
         self.zasadyshow.show()
 
     def wczytaj(self):
+        self.czy_sprawdzamy = False  # Jeśli chcesz uzyskać informację o wczytywanych zmiennych ustaw wartość True
         self.furtka_omijajaca_warunki_rozpoczecia = 1
-        self.settings = QSettings('myapp','App1')
-        print(self.settings.fileName())
-        self.kategoria=self.settings.value('kategoria')
-        self.poziom_tr= self.settings.value('poziom_trudnosci')
-        self.wynik = self.settings.value('wynik')
-        self.wynik_edt.setText(str(self.wynik))
-        self.liczba_prob = self.settings.value('liczba_prob')
-        self.wykorzystane_litery = self.settings.value('wykorzystane_litery')
-        self.komunikatedt.setText(str(
-            "Wznowiono grę " + self.kategoria+ " / "+self.poziom_tr +
-            ". \tPozostało prób:" + str(self.liczba_prob)) + "\nWykorzystane litery:" + str(
-            self.wykorzystane_litery) + "\nPodaj następną literę: ")
-        self.haslo_kom = self.settings.value('haslo_odgadywane')
-        self.wylosowane_haslo= self.settings.value('wylosowane_haslo')
-        self.hasloedt.setText(self.haslo_kom.strip())
-        self.zgadniete=self.settings.value('zgadniete')
-        self.haslo_kom=self.haslo_kom.replace(" ","")
+        self.poziom_tr, self.kategoria, self.wylosowane_haslo, self.wynik, self.st, self.liczba_prob, self.zgadniete = odczytaj_gre(
+            self)
+        if self.czy_sprawdzamy:  # sprawdzanie poprawności typu lub sprawdzanie argumentu
+            print(type(self.wykorzystane_litery))
+            print(self.wykorzystane_litery)
+            print(type(self.poziom_tr))
+            print(self.poziom_tr)
+            print(type(self.kategoria))
+            print(self.kategoria)
+            print(type(self.wylosowane_haslo))
+            print(self.wylosowane_haslo)
+            print(type(self.wynik))
+            print(self.wynik)
+            print(type(self.st))
+            print(self.st)
+            print(type(self.liczba_prob))
+            print(self.liczba_prob)
+            print(type(self.zgadniete))
+            print(self.zgadniete)
         self.indeksy = []
+        self.wykorzystane_litery = []
+        for i in range(len(self.st)):
+            self.wykorzystane_litery.append(self.st[i])
         for i in range(len(self.wylosowane_haslo)):
             self.indeksy.append(False)
-        for i in range(len(self.haslo_kom)):
-            if self.haslo_kom[i] != " "and self.haslo_kom[i] != "*":
-                self.indeksy[i]=True
+        for i in range(len(self.wylosowane_haslo)):
+            if self.wylosowane_haslo[i] in self.wykorzystane_litery:
+                self.indeksy[i] = True
+        self.haslo_kom = " ".join(
+            [litera if self.indeksy[i] else "*" for i, litera in enumerate(self.wylosowane_haslo)])
+        self.hasloedt.setText(self.haslo_kom.strip())
+        self.wynik_edt.setText(str(self.wynik))
+        self.komunikatedt.setText(str(
+            "Wznowiono grę " + self.kategoria + " / " + self.poziom_tr +
+            ". \tPozostało prób:" + str(self.liczba_prob)) + "\nWykorzystane litery:" + str(
+            self.wykorzystane_litery) + "\nPodaj następną literę: ")
 
-
-    def zapisz(self, event):
-
-        self.settings = QSettings('myapp', 'App1')
-        if self.wynik != None and not self.czy_wygrana() and self.liczba_prob != 0 :
-            print("zapisano aby podglądnąć dane wejdź Start -> Edytor Rejestru "
-                  "\nKomputer\HKEY_CURRENT_USER\Software\myapp\App1 ")
-            self.settings.setValue('kategoria', self.kategoria)
-            self.settings.setValue('poziom_trudnosci', self.poziom_tr)
-            self.settings.setValue('wynik', self.wynik)
-            self.settings.setValue('liczba_prob', self.liczba_prob)
-            self.settings.setValue('wykorzystane_litery', self.wykorzystane_litery)
-            self.settings.setValue('wylosowane_haslo', self.wylosowane_haslo)
-            if self.wynik!=0 or self.liczba_prob!=10:
-                self.settings.setValue('haslo_odgadywane', self.haslo_kom)
-            else:
-                self.settings.setValue('haslo_odgadywane', str(len(self.wylosowane_haslo)*'*  '))
-            self.settings.setValue('zgadniete', self.zgadniete)
+    def zapisz(self):
+        self.czy_sprawdzamy = False  # Jeśli chcesz uzyskać informację o wczytywanych zmiennych ustaw wartość True
+        if self.czy_sprawdzamy :  # sprawdzanie poprawności typu lub sprawdzanie argumentu
+            print(type(self.wykorzystane_litery))
+            print(self.wykorzystane_litery)
+            print(type(self.poziom_tr))
+            print(self.poziom_tr)
+            print(type(self.kategoria))
+            print(self.kategoria)
+            print(type(self.wylosowane_haslo))
+            print(self.wylosowane_haslo)
+            print(type(self.wynik))
+            print(self.wynik)
+            print(type(self.st))
+            print(self.st)
+            print(type(self.liczba_prob))
+            print(self.liczba_prob)
+            print(type(self.zgadniete))
+            print(self.zgadniete)
+        if self.wynik is not None and not self.czy_wygrana() and self.liczba_prob != 0:
+            self.st = ''.join(self.wykorzystane_litery)
+            zapisz_gre(self.poziom_tr, self.kategoria, self.wylosowane_haslo, self.wynik, self.st, self.liczba_prob,
+                       self.zgadniete, self)
         else:
             self.komunikatedt.setText(str("\t\t\t Gra się jeszcze nie rozpoczęła"
                                           "\n\t\t Wybierz kategorię i hasło, a następnie kliknij"
                                           "\n\t\t\t\t Rozpocznij grę!"))
 
 
-
-
 if __name__ == "__main__":
     import sys
+
     polacz()
     app = QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
