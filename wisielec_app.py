@@ -169,9 +169,11 @@ class Ui_MainWindow(QWidget):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.actionZapisz_Gr = QtWidgets.QAction(MainWindow)
+        self.actionZapisz_Gr.setShortcut("Ctrl+s")
         self.actionZapisz_Gr.setObjectName("actionZapisz_Gr")
         self.actionWczytaj_Gr = QtWidgets.QAction(MainWindow)
         self.actionWczytaj_Gr.setObjectName("actionWczytaj_Gr")
+        self.actionWczytaj_Gr.setShortcut("Ctrl+r")
         self.actionWyswietl_zasady_gry = QtWidgets.QAction(MainWindow)
         self.actionWyswietl_zasady_gry.setObjectName("actionWy_wietl_zasady_gry")
         self.actionPokaz_statystyki = QtWidgets.QAction(MainWindow)
@@ -198,6 +200,7 @@ class Ui_MainWindow(QWidget):
         self.menuZasady_gry.triggered.connect(self.zasady)  # odczytanie przycisku zasady
         self.actionZapisz_Gr.triggered.connect(self.zapisz)  # odczytanie przycisku zapisz
         self.actionWczytaj_Gr.triggered.connect(self.wczytaj)  # odczytanie przycisku wczytaj
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -228,9 +231,32 @@ class Ui_MainWindow(QWidget):
         self.actionWyswietl_zasady_gry.setText(_translate("MainWindow", "Wyświetl zasady gry"))
         self.actionPokaz_statystyki.setText(_translate("MainWindow", "Pokaż statystyki"))
 
+
     def koniec(self):
+        if self.wynik is not None and not self.czy_wygrana() and self.liczba_prob != 0:
+            self.zapytanie = QtWidgets.QWidget()
+            self.ui3 = Ui_Form()
+            self.ui3.setupUi(self.zapytanie)
+            self.zapytanie.setFocus()
+            self.zapytanie.show()
+            self.ui3.Tak.clicked.connect(self.tak)
+            self.ui3.Nie.clicked.connect(self.nie)
+        else:
+            baza.close()
+            exit()  # funkcjonalność przycisku koniec
+
+
+    def tak(self):
+        print("tak")
+        self.zapisz()
         baza.close()
-        exit()  # funkcjonalność przycisku koniec
+        exit()
+
+    def nie(self):
+        print("nie")
+        baza.close()
+        exit()
+
 
     def rozpoczecie(self):  # funkcja realizująca rozpoczecie gry
         self.liczba_prob = 10
@@ -266,7 +292,7 @@ class Ui_MainWindow(QWidget):
             return 5 * self.wynik
 
     def odczytaj(self):  # funkcja odczytująca podawane litery
-        self.furtka_omijajaca_warunki_rozpoczecia=0
+        self.furtka_omijajaca_warunki_rozpoczecia = 0
         self.podana_litera = self.podaj_edt.text().upper()  # umożliwia poprawne odczytanie malych badz duzych liter
         if (self.wynik is not None and not self.czy_wygrana() and self.liczba_prob != 0) or self.furtka_omijajaca_warunki_rozpoczecia == 1:  # wymuszenie kliknięcia rozpocznij grę na początku i po zakonczeniu gry z jednym hasłem
             if len(self.podana_litera) == 1:  # sprawdzenie czy podana litera sklada się z jednego znaku
@@ -389,6 +415,33 @@ class Ui_MainWindow(QWidget):
             self.komunikatedt.setText(str("\t\t\t Gra się jeszcze nie rozpoczęła"
                                           "\n\t\t Wybierz kategorię i hasło, a następnie kliknij"
                                           "\n\t\t\t\t Rozpocznij grę!"))
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(640, 190)
+        self.label = QtWidgets.QLabel(Form)
+        self.label.setGeometry(QtCore.QRect(210, 10, 201, 71))
+        self.label.setStyleSheet("font: 36pt \"Freestyle Script\";")
+        self.label.setObjectName("label")
+        self.Tak = QtWidgets.QPushButton(Form)
+        self.Tak.setGeometry(QtCore.QRect(180, 110, 111, 51))
+        self.Tak.setStyleSheet("font: 75 12pt \"MS Shell Dlg 2\";")
+        self.Tak.setObjectName("Tak")
+        self.Nie = QtWidgets.QPushButton(Form)
+        self.Nie.setGeometry(QtCore.QRect(310, 110, 111, 51))
+        self.Nie.setStyleSheet("font: 75 12pt \"MS Shell Dlg 2\";")
+        self.Nie.setObjectName("nie")
+
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.label.setText(_translate("Form", " Zapis gry?"))
+        self.Tak.setText(_translate("Form", "TAK"))
+        self.Nie.setText(_translate("Form", "NIE"))
 
 
 if __name__ == "__main__":
