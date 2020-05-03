@@ -102,6 +102,7 @@ def polacz():
             Haslo: 'hasla',
             Poziom: 'poziomy',
             Kategoria: 'kategorie',
+            Ostatnia_gra: "ostatnia_gra"
         }
 
         dodaj_dane(dane)
