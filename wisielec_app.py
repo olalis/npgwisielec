@@ -247,13 +247,11 @@ class Ui_MainWindow(QWidget):
 
 
     def tak(self):
-        print("tak")
         self.zapisz()
         baza.close()
         exit()
 
     def nie(self):
-        print("nie")
         baza.close()
         exit()
 
@@ -417,10 +415,13 @@ class Ui_MainWindow(QWidget):
                                           "\n\t\t\t\t Rozpocznij grę!"))
 class Ui_Form(object):
     def setupUi(self, Form):
-        Form.setObjectName("Form")
+        Form.setObjectName("Zapis?")
         Form.resize(640, 190)
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(210, 10, 201, 71))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../npgwisielec/hangman.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Form.setWindowIcon(icon)
         self.label.setStyleSheet("font: 36pt \"Freestyle Script\";")
         self.label.setObjectName("label")
         self.Tak = QtWidgets.QPushButton(Form)
@@ -438,7 +439,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "Zapis?"))
         self.label.setText(_translate("Form", " Zapis gry?"))
         self.Tak.setText(_translate("Form", "TAK"))
         self.Nie.setText(_translate("Form", "NIE"))
