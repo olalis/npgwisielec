@@ -345,7 +345,8 @@ class Ui_MainWindow(QWidget):
         self.ui2.setupUi(self.zasadyshow)
         self.zasadyshow.setFocus()
         self.zasadyshow.show()
-
+      
+# Poniżej znajduje się blok kodu obsługujący funkcjonalność zapis/odczyt
     def wczytaj(self):
         self.czy_sprawdzamy = False  # Jeśli chcesz uzyskać informację o wczytywanych zmiennych ustaw wartość True
         self.furtka_omijajaca_warunki_rozpoczecia = 1
@@ -413,7 +414,14 @@ class Ui_MainWindow(QWidget):
             self.komunikatedt.setText(str("\t\t\t Gra się jeszcze nie rozpoczęła"
                                           "\n\t\t Wybierz kategorię i hasło, a następnie kliknij"
                                           "\n\t\t\t\t Rozpocznij grę!"))
+# Koniec bloku kodu obsługującego funkcjonalność zapis/odczyt
+
+# Poniżej znajduje się kod okna pytającego o zapis
 class Ui_Form(object):
+    def __init__(self):
+        self.label = None
+        self.Tak = None
+        self.Nie = None
     def setupUi(self, Form):
         Form.setObjectName("Zapis?")
         Form.resize(640, 190)
@@ -443,7 +451,7 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", " Zapis gry?"))
         self.Tak.setText(_translate("Form", "TAK"))
         self.Nie.setText(_translate("Form", "NIE"))
-
+# Koniec kodu okna pytającego o zapis
 
 if __name__ == "__main__":
     import sys
