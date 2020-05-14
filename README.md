@@ -14,4 +14,4 @@ Kategorie:
 3) Implementacja zasad gry.(zasady.txt)
 4) Statystyka wygranych.
 5) Zapis/odczyt stanu gry.
-6) Jedna zaproponowane przez grupę(Wyświetlanie wyniku, który jest od uzależniony od ilości prób wpisania liter)
+6) Jedna zaproponowane przez grupę(Wyświetlanie wyniku, który jest od uzależniony od ilości prób wpisania liter i wybranego poziomu trudności)
