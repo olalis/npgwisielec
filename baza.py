@@ -32,7 +32,7 @@ class Haslo(BaseModel):
     class Meta:
         order_by = ('haslo',)
 
-class Ostatnia_gra(BaseModel):
+class OstatniaGra(BaseModel):
     poziom = CharField()
     kategoria = CharField()
     haslo = CharField(null=False)
@@ -40,6 +40,12 @@ class Ostatnia_gra(BaseModel):
     wykorzystane_litery = CharField()
     ilosc_prob = IntegerField()
     pola_zgadniete = IntegerField()
+
+
+class Statystyki(BaseModel):
+    wygrane = IntegerField()
+    przegrane = IntegerField()
+    suma_punktow = IntegerField()
 
 
 ########KONIEC##########
@@ -96,13 +102,14 @@ def polacz():
         Path(sciezka_baza).touch()
 
         baza.connect(reuse_if_open=True)
-        baza.create_tables([Poziom, Kategoria, Haslo, Ostatnia_gra])
+        baza.create_tables([Poziom, Kategoria, Haslo, OstatniaGra, Statystyki])
 
         dane = {
             Haslo: 'hasla',
             Poziom: 'poziomy',
             Kategoria: 'kategorie',
-            Ostatnia_gra: "ostatnia_gra"
+            OstatniaGra: "ostatnia_gra",
+            Statystyki: "statystyki"
         }
 
         dodaj_dane(dane)
@@ -144,22 +151,41 @@ def pobierz_haslo(that):  # funkcja wybierająca hasło o podanym poziomie i kat
 
 
 def odczytaj_gre(that):  # funkcja odczytująca stan ostaniej zapsanej gry
-    poziom = Ostatnia_gra.select(Ostatnia_gra.poziom).scalar()
-    kategoria = Ostatnia_gra.select(Ostatnia_gra.kategoria).scalar()
-    haslo = Ostatnia_gra.select(Ostatnia_gra.haslo).scalar()
-    wynik = Ostatnia_gra.select(Ostatnia_gra.wynik).scalar()
-    wykorzystane_litery = Ostatnia_gra.select(Ostatnia_gra.wykorzystane_litery).scalar()
-    ilosc_prob = Ostatnia_gra.select(Ostatnia_gra.ilosc_prob).scalar()
-    pola_zgadniete = Ostatnia_gra.select(Ostatnia_gra.pola_zgadniete).scalar()
+    poziom = OstatniaGra.select(OstatniaGra.poziom).scalar()
+    kategoria = OstatniaGra.select(OstatniaGra.kategoria).scalar()
+    haslo = OstatniaGra.select(OstatniaGra.haslo).scalar()
+    wynik = OstatniaGra.select(OstatniaGra.wynik).scalar()
+    wykorzystane_litery = OstatniaGra.select(OstatniaGra.wykorzystane_litery).scalar()
+    ilosc_prob = OstatniaGra.select(OstatniaGra.ilosc_prob).scalar()
+    pola_zgadniete = OstatniaGra.select(OstatniaGra.pola_zgadniete).scalar()
     return poziom, kategoria, haslo, wynik, wykorzystane_litery, ilosc_prob, pola_zgadniete
 
 
 def zapisz_gre(poziom, kategoria, haslo, wynik, wykorzystane_litery, ilosc_prob, pola_zgadniete, that):
     # funkcja zapisująca stan gry
-    stare_dane = Ostatnia_gra.select().get()
+    stare_dane = OstatniaGra.select().get()
     stare_dane.delete_instance()
     del stare_dane
-    that.nowe_dane = Ostatnia_gra(poziom=poziom, kategoria=kategoria, haslo=haslo, wynik=wynik,
+    that.nowe_dane = OstatniaGra(poziom=poziom, kategoria=kategoria, haslo=haslo, wynik=wynik,
                                   wykorzystane_litery=wykorzystane_litery, ilosc_prob=ilosc_prob,
                                   pola_zgadniete=pola_zgadniete)
+    that.nowe_dane.save()
+
+
+def odczytaj_statystki(that):  # funkcja odczytująca statystyki
+    wygrane = Statystyki.select(Statystyki.wygrane).scalar()
+    przegrane = Statystyki.select(Statystyki.przegrane).scalar()
+    suma_punktow = Statystyki.select(Statystyki.suma_punktow).scalar()
+    return wygrane, przegrane, suma_punktow
+
+
+def zapisz_statystyki(wygrana, przegrana, punkty, that):  # funkcja zapisująca statystyki
+    that.wygrane, that.przegrane, that.suma_punktow = odczytaj_statystki(that)
+    win = that.wygrane + wygrana
+    lose = that.przegrane + przegrana
+    suma = that.suma_punktow + punkty
+    stare_dane = Statystyki.select().get()
+    stare_dane.delete_instance()
+    del stare_dane
+    that.nowe_dane = Statystyki(wygrane=win, przegrane=lose, suma_punktow=suma)
     that.nowe_dane.save()
