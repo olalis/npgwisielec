@@ -179,13 +179,15 @@ def odczytaj_statystki(that):  # funkcja odczytująca statystyki
     return wygrane, przegrane, suma_punktow
 
 
-def zapisz_statystyki(wygrana, przegrana, punkty, that):  # funkcja zapisująca statystyki
+def zapisz_statystyki(rezultat, punkty, that):  # funkcja zapisująca statystyki
     that.wygrane, that.przegrane, that.suma_punktow = odczytaj_statystki(that)
-    win = that.wygrane + wygrana
-    lose = that.przegrane + przegrana
+    if rezultat:
+        that.wygrane += 1
+    else:
+        that.przegrane += 1
     suma = that.suma_punktow + punkty
     stare_dane = Statystyki.select().get()
     stare_dane.delete_instance()
     del stare_dane
-    that.nowe_dane = Statystyki(wygrane=win, przegrane=lose, suma_punktow=suma)
+    that.nowe_dane = Statystyki(wygrane=that.wygrane, przegrane=that.przegrane, suma_punktow=suma)
     that.nowe_dane.save()

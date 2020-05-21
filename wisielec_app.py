@@ -455,7 +455,6 @@ class Ui_Form(object):
 
 if __name__ == "__main__":
     import sys
-
     polacz()
     app = QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
