@@ -10,6 +10,7 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from baza import *
 from zasadygry import Ui_Zasady_gry
+from statystyki import Ui_statystyki
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import QSettings
 import string
