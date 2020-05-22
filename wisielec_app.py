@@ -198,6 +198,7 @@ class Ui_MainWindow(QWidget):
         self.podaj_edt.returnPressed.connect(self.odczytaj)  # obsluga podawania liter
         self.wynik = None
         self.menuZasady_gry.triggered.connect(self.zasady)  # odczytanie przycisku zasady
+        self.menuStatystyki.triggered.connect(self.statystyka) #odczytanie przycisku statystyk
         self.actionZapisz_Gr.triggered.connect(self.zapisz)  # odczytanie przycisku zapisz
         self.actionWczytaj_Gr.triggered.connect(self.wczytaj)  # odczytanie przycisku wczytaj
 
@@ -278,6 +279,7 @@ class Ui_MainWindow(QWidget):
         if self.zgadniete == len(self.wylosowane_haslo):
             self.komunikatedt.setText("Gratulacje wygrałeś!!!\nTwój wynik końcowy: " + str(self.wynik_koncowy()))
             self.wynik_edt.setText(str(self.wynik_koncowy()))
+            zapisz_statystyki(1, self.wynik_koncowy(), self)
 
             return True
 
@@ -324,6 +326,7 @@ class Ui_MainWindow(QWidget):
                     self.wynik_edt.setText(str(self.wynik))
                     if self.liczba_prob == 0:
                         self.komunikatedt.setText("GAME OVER")
+                        zapisz_statystyki(0, self.wynik, self)
             else:
                 self.komunikatedt.setText(
                     "Wprowadzono błędne dane! Spróbuj ponownie")  # komunikat przy wprowadzeniu błednych danych
@@ -345,6 +348,13 @@ class Ui_MainWindow(QWidget):
         self.ui2.setupUi(self.zasadyshow)
         self.zasadyshow.setFocus()
         self.zasadyshow.show()
+        
+    def statystyka(self):
+        self.statyshow = QtWidgets.QMainWindow()
+        self.ui4 = Ui_statystyki()
+        self.ui4.setupUi(self.statyshow)
+        self.statyshow.setFocus()
+        self.statyshow.show()
       
 # Poniżej znajduje się blok kodu obsługujący funkcjonalność zapis/odczyt
     def wczytaj(self):
