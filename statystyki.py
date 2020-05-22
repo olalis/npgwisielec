@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 from baza import *
 import matplotlib.pyplot as plt
-
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_statystyki(object):
     def setupUi(self, statystyki):
