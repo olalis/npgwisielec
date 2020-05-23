@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from baza import *
 from zasadygry import Ui_Zasady_gry
 from PyQt5.QtWidgets import QApplication, QWidget
-
+import matplotlib.pyplot as plt
 
 
 class Ui_MainWindow(QWidget):
