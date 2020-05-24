@@ -430,6 +430,9 @@ class Ui_statystyki(QWidget):
     def setupUi(self, statystyki):                                                                          
         statystyki.setObjectName("statystyki")                                                              
         statystyki.resize(1020, 475)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("../npgwisielec/hangman.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon2)
         self.centralwidget = QtWidgets.QWidget(statystyki)                                                  
         self.centralwidget.setObjectName("centralwidget")                                                   
         self.tytul = QtWidgets.QLabel(self.centralwidget)                                                   
@@ -491,8 +494,7 @@ class Ui_statystyki(QWidget):
         self.ilosc_przeg_tablica.setText(_translate("statystyki", "Ilość nieodgadniętych haseł:"))          
         self.suma_tablica.setText(_translate("statystyki", "Suma zdobytych punktów:"))                      
                                                                                                             
-    def wczytywanie_statystyk(self):                                                                        
-        print("gdvhacj")                                                                                    
+    def wczytywanie_statystyk(self):
         self.liczba_wyg, self.liczba_przeg, self.wynik_punkty= odczytaj_statystki(self)                     
         self.wygrane_LCD.display(self.liczba_wyg)                                                           
         self.suma.display(self.wynik_punkty)                                                                
@@ -520,4 +522,4 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()                                                                                    
     ui.setupUi(MainWindow)                                                                                  
     MainWindow.show()                                                                                       
-    sys.exit(app.exec_())                                                                                                                                                                  
+    sys.exit(app.exec_())                                                                                                                                                                                                                                                  
