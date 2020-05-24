@@ -425,7 +425,44 @@ class Ui_MainWindow(QWidget):
                                           "\n\t\t\t\t Rozpocznij grę!"))
 # Koniec bloku kodu obsługującego funkcjonalność zapis/odczyt
 
-# Poniżej znajduje się kod okna pytającego o zapis                                                                              
+# Poniżej znajduje się kod okna pytającego o zapis
+class Ui_Form(object):
+    def __init__(self):
+        self.label = None
+        self.Tak = None
+        self.Nie = None
+    def setupUi(self, Form):
+        Form.setObjectName("Zapis?")
+        Form.resize(640, 190)
+        self.label = QtWidgets.QLabel(Form)
+        self.label.setGeometry(QtCore.QRect(210, 10, 201, 71))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../npgwisielec/hangman.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Form.setWindowIcon(icon)
+        self.label.setStyleSheet("font: 36pt \"Freestyle Script\";")
+        self.label.setObjectName("label")
+        self.Tak = QtWidgets.QPushButton(Form)
+        self.Tak.setGeometry(QtCore.QRect(180, 110, 111, 51))
+        self.Tak.setStyleSheet("font: 75 12pt \"MS Shell Dlg 2\";")
+        self.Tak.setObjectName("Tak")
+        self.Nie = QtWidgets.QPushButton(Form)
+        self.Nie.setGeometry(QtCore.QRect(310, 110, 111, 51))
+        self.Nie.setStyleSheet("font: 75 12pt \"MS Shell Dlg 2\";")
+        self.Nie.setObjectName("nie")
+
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Zapis?"))
+        self.label.setText(_translate("Form", " Zapis gry?"))
+        self.Tak.setText(_translate("Form", "TAK"))
+        self.Nie.setText(_translate("Form", "NIE"))
+# Koniec kodu okna pytającego o zapis
+
+# Poniżej znajduje się kod okna statystyk                                                                             
 class Ui_statystyki(QWidget):                                                                               
     def setupUi(self, statystyki):                                                                          
         statystyki.setObjectName("statystyki")                                                              
