@@ -430,9 +430,9 @@ class Ui_statystyki(QWidget):
     def setupUi(self, statystyki):                                                                          
         statystyki.setObjectName("statystyki")                                                              
         statystyki.resize(1020, 475)
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../npgwisielec/hangman.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        MainWindow.setWindowIcon(icon2)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../npgwisielec/hangman.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        statystyki.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(statystyki)                                                  
         self.centralwidget.setObjectName("centralwidget")                                                   
         self.tytul = QtWidgets.QLabel(self.centralwidget)                                                   
