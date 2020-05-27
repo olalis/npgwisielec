@@ -527,7 +527,7 @@ class Ui_statystyki(QWidget):
         _translate = QtCore.QCoreApplication.translate                                                      
         statystyki.setWindowTitle(_translate("statystyki", "Statystyki gracza"))                            
         self.tytul.setText(_translate("statystyki", "Statystyki gry:"))                                     
-        self.wykres_btn.setText(_translate("statystyki", "wykres"))                                         
+        self.wykres_btn.setText(_translate("statystyki", "Wykres"))
         self.Ilosc_wyg_tablica.setText(_translate("statystyki", "Ilość odgadniętych haseł:"))               
         self.ilosc_przeg_tablica.setText(_translate("statystyki", "Ilość nieodgadniętych haseł:"))          
         self.suma_tablica.setText(_translate("statystyki", "Suma zdobytych punktów:"))                      
