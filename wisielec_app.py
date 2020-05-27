@@ -324,7 +324,7 @@ class Ui_MainWindow(QWidget):
                             self.wykorzystane_litery) + "\nPodaj następną literę: ")
                     self.wynik_edt.setText(str(self.wynik))
                     if self.liczba_prob == 0:
-                        self.komunikatedt.setText("GAME OVER")
+                        self.komunikatedt.setText("\tGAME OVER!!!")
                         zapisz_statystyki(0, self.wynik, self)
             else:
                 self.komunikatedt.setText(
