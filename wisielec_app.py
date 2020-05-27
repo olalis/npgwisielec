@@ -419,6 +419,8 @@ class Ui_MainWindow(QWidget):
             self.st = ''.join(self.wykorzystane_litery)
             zapisz_gre(self.poziom_tr, self.kategoria, self.wylosowane_haslo, self.wynik, self.st, self.liczba_prob,
                        self.zgadniete, self)
+            self.komunikatedt.setText(str("\t\t\tGra została poprawnie zapisana \n" "Pozostało prób:" + str(self.liczba_prob) + "\nWykorzystane litery:" + str(
+                            self.wykorzystane_litery) + "\t\t\t\tPodaj następną literę: "))
         else:
             self.komunikatedt.setText(str("\t\t\t Gra się jeszcze nie rozpoczęła"
                                           "\n\t\t Wybierz kategorię i hasło, a następnie kliknij"
